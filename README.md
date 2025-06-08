@@ -1,131 +1,162 @@
-# Inventory Management Tool (IMT)
+# 🧾 Inventory Management System (Spring Boot + JWT + MySQL)
 
-A backend RESTful API built with **Spring Boot**, secured with **JWT authentication**, and connected to a **MySQL** database.  
-This project supports role-based access control and provides APIs for managing products and inventory.
+A secure backend system built with **Spring Boot**, **JWT-based Authentication**, and **MySQL** that supports role-based access for managing products and users. 
+It is designed for learning, assignments, and as a portfolio-ready project.
 
----
+## 📚 Features
 
-## Table of Contents
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Setup & Installation](#setup--installation)
-- [Database Schema](#database-schema)
-- [API Documentation](#api-documentation)
-- [Usage](#usage)
-- [Testing](#testing)
-- [Future Scope](#future-scope)
-- [Acknowledgments](#acknowledgments)
+- ✅ User Registration & Login (JWT auth)
+- ✅ Role-Based Access Control (`USER`, `ADMIN`)
+- ✅ Secure CRUD for Products
+- ✅ Admin-only: View all users & most-added product
+- ✅ MySQL for persistent storage
+- ✅ Unit Testing with JUnit
 
----
+## 🗂️ Project Structure
+<pre> <code> Inventory/ 
+    ├── Controller/
+    ├── DTO/ 
+    ├── Model/ 
+    ├── Repository/ 
+    ├── Security/ 
+    ├── Service/ 
+    ├── config/ 
+    └── Application.java </code> </pre>
 
-## Features
-- User registration and login with JWT-based security  
-- Role-based access control (Admin / User)  
-- CRUD operations on products and inventory management  
-- Secure password storage with BCrypt hashing  
-- REST APIs documented with Swagger/OpenAPI  
 
----
+## 🛠️ Technologies Used
 
-## Tech Stack
-- **Backend:** Java, Spring Boot  
-- **Security:** Spring Security, JWT (JSON Web Tokens)  
-- **Database:** MySQL  
-- **Build Tool:** Maven  
-- **API Testing:** Postman  
-- **Version Control:** Git, GitHub  
+- Java 17
+- Spring Boot 3+
+- Spring Security (JWT + Role Based Auth)
+- MySQL
+- Maven
+- JPA + Hibernate
+- JUnit 5
 
----
 
-## Setup & Installation
+## 🧑‍💻 Roles & Permissions
 
-### Prerequisites
-- Java JDK 11 or above  
-- MySQL Server installed and running  
-- Maven installed  
-- Git installed  
+| Role   | Endpoint Access |
+|--------|------------------|
+| USER   | Register, Login, Manage own products |
+| ADMIN  | All of USER + View all users, Most added product |
 
-### Steps
-1. Clone this repository:  
+## 💽 Database Schema
+
+### `users` table
 ```
-git clone https://github.com/USERNAME/REPO_NAME.git
-cd REPO_NAME
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    role VARCHAR(50)
+);
 ```
-2. Configure MySQL database:
-Create a new database (e.g., inventorydb)
-Update the application.properties file with your MySQL credentials:
+### `products` table
 ```
-spring.datasource.url=jdbc:mysql://localhost:3306/inventorydb
-spring.datasource.username=your_mysql_username
-spring.datasource.password=your_mysql_password
-spring.jpa.hibernate.ddl-auto=update
+CREATE TABLE product (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    type VARCHAR(255),
+    sku VARCHAR(100),
+    image_url TEXT,
+    description TEXT,
+    quantity INT,
+    price DECIMAL(10,2)
+);
 ```
-3. Build and run the application:
+
+
+▶️ How to Run Locally
+
+1. Clone the repo
+   git clone https://github.com/your-username/inventory-management.git
+   cd inventory-management
+2. Setup MySQL DB
+   Start MySQL Server
+   Create a DB: CREATE DATABASE inventory;
+   **Configure application.properties:**
+   spring.datasource.url=jdbc:mysql://localhost:3306/inventory
+   spring.datasource.username=root
+   spring.datasource.password=your_password
+   spring.jpa.hibernate.ddl-auto=update
+3. Run the App
+   ./mvnw spring-boot:run
+   App starts at: http://localhost:8080
+
+📬 Using Postman (Step-by-Step)
+
+🔐 1. Register (no auth)
+POST /auth/register
 ```
-mvn clean install
-mvn spring-boot:run
+Body (JSON):
+{
+  "username": "umang",
+  "password": "123",
+  "role": "USER"
+}
 ```
-4. Access Swagger UI for API documentation:
+
+🔑 2. Login
+POST /auth/login
+
 ```
-http://localhost:8080/swagger-ui.html
+Body:
+{
+  "username": "umang",
+  "password": "123"
+}
+✅ Get JWT token in response.
 ```
-Database Schema
-| Table       | Description                       |
-| ----------- | --------------------------------- |
-| `users`     | Stores user account information   |
-| `roles`     | Stores roles (ADMIN, USER)        |
-| `products`  | Stores product details            |
-| `inventory` | Tracks stock levels for products  |
-| `orders`    | (If applicable) Stores order info |
 
 
-API Documentation
-Authentication:
-
-/auth/register – Register new users
-
-/auth/login – Login and receive JWT token
-
-Product Management (Admin only):
-
-/products – Create, Read, Update, Delete products
-
-Inventory Management:
-
-/inventory – View and update product stock
-
-User Operations:
-
-View products and inventory (read-only)
-
-Refer to Swagger UI for full API details.
-
-Usage
-Register new users (POST /auth/register)
-
-Login (POST /auth/login) to get JWT token
-
-Include JWT token in Authorization: Bearer <token> header for protected endpoints
-
-Admin users can manage products and inventory
-
-Normal users can view product details
-
-Testing
-Use the Postman collection provided (postman_collection.json) to test APIs
-
-Run unit tests via Maven:
+3. Add Product (USER)
 ```
-mvn test
-Future Scope
-Implement order and sales management
+POST /user/products
+Headers: Authorization: Bearer <JWT>
+Body:
+{
+  "name": "iPhone",
+  "type": "Electronics",
+  "sku": "APL-101",
+  "imageUrl": "http://img.com/img.png",
+  "description": "Apple iPhone",
+  "quantity": 5,
+  "price": 999.99
+}
+```
+## 📬 How to Test Using Postman
 
-Add reporting and analytics dashboards
-Integrate role-based UI frontend
-Support bulk import/export of product data
-Add notifications for low stock alerts
+1. **Register:** `POST /auth/register`
+2. **Login:** `POST /auth/login` → Copy the token
+3. **Add Authorization Header:**
+   - Key: `Authorization`
+   - Value: `Bearer <your_token_here>`
+4. Use `GET`, `PUT`, `DELETE` on `/user/products/**`
+5. Use admin token for:
+   - `GET /admin_only/users`
+   - `GET /admin_only/most-added-product`
 
-## **Acknowledgments**
-Spring Boot and Spring Security documentation
-Open source libraries used in the project
-Community tutorials and examples
+
+🧪 Unit Testing
+Test example: ProductServiceTest.java
+@Test
+public void testGetAllProductsReturnsList() {
+    List<Product> products = productService.getAllProducts();
+    assertNotNull(products);
+}
+Run via IntelliJ or ./mvnw test
+
+🚀 Future Scope
+ Assign products to specific users (ownership)
+ Add categories for products
+ Swagger UI for API docs
+ Dockerize the app
+ Frontend using React or Vue
+ File upload for image URLs
+ Email verification on registration
+
+🙌 Author
+Developed by Umang Goyal — feel free to connect on [https://www.linkedin.com/in/umang-goyal-8016621b3].
