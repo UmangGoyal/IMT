@@ -41,6 +41,11 @@ public class SecurityConfig {
 .permitAll()
                                 .requestMatchers("/user/**").authenticated()
                                 .requestMatchers("/admin_only/**").hasAuthority("ADMIN")
+                                .requestMatchers(
+                                        "/v3/api-docs/**",                // allow OpenAPI JSON
+                                        "/swagger-ui/**",                 // allow Swagger UI
+                                        "/swagger-ui.html"                // sometimes required
+                                ).permitAll()
                                 .anyRequest().authenticated()
                 ).userDetailsService(userDetailsImp)
                 .sessionManagement(session->session
