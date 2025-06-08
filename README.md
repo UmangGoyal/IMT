@@ -47,9 +47,9 @@ This project supports role-based access control and provides APIs for managing p
 
 ### Steps
 1. Clone this repository:  
-   ```bash
-   git clone https://github.com/USERNAME/REPO_NAME.git
-   cd REPO_NAME
+```
+git clone https://github.com/USERNAME/REPO_NAME.git
+cd REPO_NAME
 2. Configure MySQL database:
 Create a new database (e.g., inventorydb)
 Update the application.properties file with your MySQL credentials:
@@ -65,6 +65,15 @@ mvn clean install
 mvn spring-boot:run
 ```
 4. Access Swagger UI for API documentation:
-   ```
-   http://localhost:8080/swagger-ui.html
-   ```
+```
+http://localhost:8080/swagger-ui.html
+```
+Database Schema
+| Table       | Description                       |
+| ----------- | --------------------------------- |
+| `users`     | Stores user account information   |
+| `roles`     | Stores roles (ADMIN, USER)        |
+| `products`  | Stores product details            |
+| `inventory` | Tracks stock levels for products  |
+| `orders`    | (If applicable) Stores order info |
+
