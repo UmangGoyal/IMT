@@ -158,5 +158,16 @@ Run via IntelliJ or ./mvnw test
  - File upload for image URLs
  - Email verification on registration
 
-**🙌 Author**
-Developed by Umang Goyal — feel free to connect on [https://www.linkedin.com/in/umang-goyal-8016621b3].
+## 🤖 AI Assistance Acknowledgment
+
+This project was independently developed by Developed by **Umang Goyal** — feel free to connect on [https://www.linkedin.com/in/umang-goyal-8016621b3].
+
+AI assistance was specifically used for:
+
+- Generating and formatting the `README.md` file
+- Understanding and implementing **BCrypt password hashing**
+- Understanding and implementing **Swagger UI**
+- Writing sample unit tests using JUnit
+- Postman test case structure and setup
+
+All actual coding, integration, testing, and debugging were done manually by me to ensure hands-on learning and ownership of the project.
