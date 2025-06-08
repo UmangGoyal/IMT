@@ -68,13 +68,12 @@ CREATE TABLE product (
 );
 ```
 
+## ▶️ How to Run Locally
 
-▶️ How to Run Locally
-
-1. Clone the repo
+1. **Clone the repo**
    git clone https://github.com/your-username/inventory-management.git
    cd inventory-management
-2. Setup MySQL DB
+2. **Setup MySQL DB**
    Start MySQL Server
    Create a DB: CREATE DATABASE inventory;
    **Configure application.properties:**
@@ -82,13 +81,13 @@ CREATE TABLE product (
    spring.datasource.username=root
    spring.datasource.password=your_password
    spring.jpa.hibernate.ddl-auto=update
-3. Run the App
+3. **Run the App**
    ./mvnw spring-boot:run
    App starts at: http://localhost:8080
 
-📬 Using Postman (Step-by-Step)
+## 📬 **Using Postman (Step-by-Step)**
 
-🔐 1. Register (no auth)
+**🔐 1. Register (no auth)**
 POST /auth/register
 ```
 Body (JSON):
@@ -99,7 +98,7 @@ Body (JSON):
 }
 ```
 
-🔑 2. Login
+**🔑 2. Login**
 POST /auth/login
 
 ```
@@ -112,7 +111,7 @@ Body:
 ```
 
 
-3. Add Product (USER)
+**3. Add Product (USER)**
 ```
 POST /user/products
 Headers: Authorization: Bearer <JWT>
@@ -139,24 +138,25 @@ Body:
    - `GET /admin_only/users`
    - `GET /admin_only/most-added-product`
 
-
-🧪 Unit Testing
+## **🧪 Unit Testing**
 Test example: ProductServiceTest.java
+```
 @Test
 public void testGetAllProductsReturnsList() {
     List<Product> products = productService.getAllProducts();
     assertNotNull(products);
 }
+
 Run via IntelliJ or ./mvnw test
+```
 
-🚀 Future Scope
- Assign products to specific users (ownership)
- Add categories for products
- Swagger UI for API docs
- Dockerize the app
- Frontend using React or Vue
- File upload for image URLs
- Email verification on registration
+## **🚀 Future Scope**
+ - Assign products to specific users (ownership)
+ - Add categories for products
+ - Dockerize the app
+ - Frontend using React or Vue
+ - File upload for image URLs
+ - Email verification on registration
 
-🙌 Author
+**🙌 Author**
 Developed by Umang Goyal — feel free to connect on [https://www.linkedin.com/in/umang-goyal-8016621b3].
